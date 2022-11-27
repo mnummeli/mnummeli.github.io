@@ -33,7 +33,7 @@ function pdf() {
 const defaultTask = parallel(html, pdf);
 
 function dev(cb) {
-    watch([MD_SOURCES], defaultTask);
+    watch([MD_SOURCES], html);
 }
 
 module.exports = {html, pdf, dev, default: defaultTask};
