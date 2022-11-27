@@ -5,11 +5,10 @@
 const {parallel, watch, src, dest} = require("gulp");
 const Vinyl = require("vinyl");
 
-const MD_SOURCES = '*.md';
+const MD_SOURCES = 'CV*.md';
 
 function html(cb) {
     const { Transform } = require('node:stream');
-
     const htmlTransform = new Transform({
         objectMode: true,
         transform: (mdVinyl, encoding, cb) => {
@@ -26,12 +25,15 @@ function html(cb) {
         .pipe(dest('../'));
 }
 
-function pdf(cb) {
-    cb();
+function pdf() {
+    const {exec} = require('node:child_process');
+    return exec('./CV_pdf.sh');
 }
+
+const defaultTask = parallel(html, pdf);
 
 function dev(cb) {
-    watch([MD_SOURCES], parallel(html, pdf));
+    watch([MD_SOURCES], defaultTask);
 }
 
-module.exports = {html, pdf, dev, default: parallel(html, pdf)};
+module.exports = {html, pdf, dev, default: defaultTask};
