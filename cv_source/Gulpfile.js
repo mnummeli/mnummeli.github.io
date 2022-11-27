@@ -2,26 +2,36 @@
 
 'use strict';
 
-const {series, watch} = require("gulp");
+const {parallel, watch, src, dest} = require("gulp");
+const Vinyl = require("vinyl");
 
-function clean(cb) {
-    const {unlink} = require("node:fs");
-    unlink("README.html", cb);
+const MD_SOURCES = '*.md';
+
+function html(cb) {
+    const { Transform } = require('node:stream');
+
+    const htmlTransform = new Transform({
+        objectMode: true,
+        transform: (mdVinyl, encoding, cb) => {
+            const mdContent = mdVinyl.contents.toString();
+            const {parse} = require("marked");
+            mdVinyl.contents = Buffer.from(parse(mdContent), 'utf-8');
+            mdVinyl.path = mdVinyl.path.replace('\.md', '\.html');
+            cb(null, mdVinyl);
+        }
+    });
+
+    return src(MD_SOURCES)
+        .pipe(htmlTransform)
+        .pipe(dest('../'));
 }
 
-function build(cb) {
-    const {readFile, writeFile} = require("node:fs");
-    const fileStr = readFile("README.md",
-                             {encoding: "utf-8"},
-                             (err, data) => {
-                                 const {parse} = require("marked");
-                                 const markdownString = parse(data);
-                                 writeFile("README.html", markdownString, cb);
-    });
+function pdf(cb) {
+    cb();
 }
 
 function dev(cb) {
-    watch(["README.md"], build);
+    watch([MD_SOURCES], parallel(html, pdf));
 }
 
-module.exports = {clean, build, dev, default: series(clean, build)};
+module.exports = {html, pdf, dev, default: parallel(html, pdf)};

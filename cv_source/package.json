@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mnummeli",
   "devDependencies": {
     "gulp": "^4.0.2",
+    "madoko": "^1.2.3",
     "marked": "^4.2.3"
   }
 }
