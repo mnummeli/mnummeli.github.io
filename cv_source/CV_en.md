@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Mikko Nummelin</title>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" href="w3.css"/>
-        <link rel="stylesheet" href="app.css"/>
-    </head>
-<body>
-    <div id="content">
-<body>
-    <div id="content">
+<div id="content">
 
 # Resúme
 
