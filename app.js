@@ -8,6 +8,9 @@ $(() => {
             case 2:
                 pagename = 'CV_en.html';
                 break;
+            case 3:
+                pagename = 'about.html';
+                break;
             default:
                 pagename = 'esittely.html';
         }
@@ -24,6 +27,10 @@ $(() => {
 
     $('#resume').click(event => {
         choose(2);
+    });
+    
+    $('#about').click(event => {
+        choose(3);
     });
 
     choose(0);
